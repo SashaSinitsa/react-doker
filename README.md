@@ -42,3 +42,23 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+
+yarn global add create-react-app
+create-react-app docker-create-react-app
++ run.sh
+docker image build -t react:app .
+(docker image ls react:app)
+(docker container run -it react:app bash)
+(!!!? sw-precache)
+
+docker container run -it -p 3000:3000 -p 35729:35729 -v $(pwd):/app react:app
+docker container run -it -v $(pwd):/app react:app build
+docker container run -it -v $(pwd):/app react:app test
+docker container run -it -v $(pwd):/app react:app test --coverage
+docker container run -it -v $(pwd):/app react:app test --help
+
+docker container run -it -p 3000:3000 -p 35729:35729 -v $(pwd):/app --name mydebugging react:app
+docker exec -it mydebugging bash // second terminal
+docker container run -it -v $(pwd):/app react:app bash
