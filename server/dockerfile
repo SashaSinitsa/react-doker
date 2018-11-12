@@ -1,0 +1,23 @@
+FROM node:latest
+
+# Create app directory
+RUN mkdir /server
+WORKDIR /server
+
+# Install app dependencies
+COPY package.json ./
+COPY yarn.lock ./
+
+# Install libraries
+RUN yarn && yarn global add typescript ts-node
+
+# Bundle app source
+COPY . .
+
+# Build dist folder
+# RUN yarn build
+
+EXPOSE 4000
+CMD [ "npm", "run", "dev" ]
+
+# docker container run -it -p 4000:4000  -v $(pwd):/server server:app

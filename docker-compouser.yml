@@ -1,0 +1,26 @@
+version: "3"
+services:
+  react:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "3000:3000"
+      - "35729:35729"
+    volumes:
+      - $PWD:/app
+    # command: start
+  # server  
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "4000:4000"
+    volumes:
+      - $PWD/server:/server
+    command: start    
