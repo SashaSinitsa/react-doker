@@ -8,8 +8,11 @@ WORKDIR /server
 COPY package.json ./
 COPY yarn.lock ./
 
+ENV NODE_PATH=/server/node_modules
+ENV PATH=$PATH:/server/node_modules/.bin
+
 # Install libraries
-RUN yarn && yarn global add typescript ts-node
+RUN yarn && yarn global add typescript ts-node nodemon pino-pretty
 
 # Bundle app source
 COPY . .
@@ -18,6 +21,8 @@ COPY . .
 # RUN yarn build
 
 EXPOSE 4000
-CMD [ "npm", "run", "dev" ]
+
+ENTRYPOINT ["/bin/bash", "/server/run.sh"]
+CMD ["start"]
 
 # docker container run -it -p 4000:4000  -v $(pwd):/server server:app

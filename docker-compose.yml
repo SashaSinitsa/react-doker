@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    depends_on:
+      - server  
     environment:
       - NODE_ENV=development
     ports:
@@ -11,12 +13,13 @@ services:
       - "35729:35729"
     volumes:
       - $PWD:/app
-    # command: start
+    command: start
+    
   # server  
   server:
     build:
       context: .
-      dockerfile: server/Dockerfile
+      dockerfile: server/dockerfile
     environment:
       - NODE_ENV=development
     ports:
