@@ -1,26 +1,25 @@
-FROM node:latest
+# You should always specify a full version here to ensure all of your developers
+# are running the same version of Node.
+FROM node:11.1.0
 
-# Create app directory
-RUN mkdir /server
-WORKDIR /server
+# Override the base log level (info).
+ENV NPM_CONFIG_LOGLEVEL warn
 
-# Install app dependencies
-COPY package.json ./
-COPY yarn.lock ./
+ADD yarn.lock /yarn.lock
+ADD package.json /package.json
 
-ENV NODE_PATH=/server/node_modules
-ENV PATH=$PATH:/server/node_modules/.bin
-
-# Install libraries
+ENV NODE_PATH=/node_modules
+ENV PATH=$PATH:/node_modules/.bin
 RUN yarn && yarn global add typescript ts-node nodemon pino-pretty
 
-# Bundle app source
-COPY . .
+WORKDIR /server
+ADD . /server
 
 # Build dist folder
 # RUN yarn build
 
 EXPOSE 4000
+EXPOSE 35729
 
 ENTRYPOINT ["/bin/bash", "/server/run.sh"]
 CMD ["start"]
